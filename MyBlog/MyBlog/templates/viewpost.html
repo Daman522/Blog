@@ -1,0 +1,31 @@
+{% extends "base.html"%}
+
+{%block content%}
+<div class="container mt-5">
+    <div class="row  mt-5">
+    </div>
+    <div class="row  mt-5">
+    </div>
+    <h4></h4>
+    <h4></h4>
+    <h4 class="mt-5 text-center">View blogg</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card text-center mt-5" style="width: 38rem;">
+                <img src="{{p.image.url}}" class="card-img-top" alt="...">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Title---"{{p.title}}"</li>
+                    <li class="list-group-item">Date---"{{p.date_posted}}"</li>
+                    <li class="list-group-item">Author---"{{p.author}}"</li>
+                  </ul>
+                <div class="card-body">
+                  <p class="card-text">"{{p.desc}}"</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

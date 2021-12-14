@@ -1,0 +1,133 @@
+{% extends "base.html"%}
+
+{%block content%}
+<section class="" style="background-color: #9A616D;min-height: 100vh;">
+
+    <div class="container py-5 h-100 mt-4">
+      <div class="row mt-5">
+        <div class="col-3">
+         
+        </div>
+        <div class="col-lg-6 col-12 ">
+          <div class="card " style="border-radius: 1rem;">
+          
+              <div class="col-md-6 col-lg-12 ">
+                <div class="card-body p-4 p-lg-5 text-black ">
+  
+                  
+                  <form method="POST">
+                    {% csrf_token %}
+  
+                    <div class="align-items-center mb-3 pb-1">
+                      <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                      <span class="h1 fw-bold mb-0">Register</span>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="form2Example17">Username</label>
+                      <input type="text"  name="email" id="email" id="username" name="username" class="username fields form-control form-control-lg"/>
+                   </div>
+  
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="form2Example17">Email </label>
+                        <input type="email"  name="email" id="email" class=" email fields form-control form-control-lg"/>
+                     </div>
+  
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="form2Example27">Password</label>
+                      <input type="password" id="password" name="password" class=" password fields form-control form-control-lg" />
+                      
+                    </div>
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="form2Example27">Confirm Password</label>
+                    <input type="password" id="re_password" name="re_password" class=" re_password fields form-control form-control-lg" />
+                    <span class="repassword" style="display: none;">Password doesnt match</span>
+                    
+                  </div>
+
+                    <div class="pt-1 mb-4">
+                      <button class=" register btn btn-dark btn-lg btn-block" type="button">Register</button>
+                    </div>
+  
+                   
+                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an account? <a href="{% url 'login'  %}" style="color: #393f81;">Login here</a></p>
+                    <a href="#!" class="small text-muted">Terms of use.</a>
+                    <a href="#!" class="small text-muted">Privacy policy</a>
+                  </form>
+  
+                </div>
+              </div>
+         
+          </div>
+        </div>
+        <div class="col-3">
+         
+        </div>
+      </div>
+    </div>
+</form>
+  </section>
+<script>
+$(document).ready(function(){
+    $('.register').on('click',function(e){
+      e.preventDefault()
+      let submit = true;
+    
+  //     if(    $('.password').val().trim() != $('.re_password ').val().trim()    ){
+     
+  //         $('.repassword').css('display','block');
+  //         submit = false;
+  //   }
+  //  else{
+  //    $('.repassword').css('display','none');
+  //    submit = true;
+  //  }
+
+   $('.fields').each((i,e)=>{
+        if ($(e).val() == ""){
+          $(e).addClass('border border-danger');
+          $(e).parent().find('span').remove();
+          $(e).parent().append('<span>Please fill this field</span>')
+          submit = false;
+        }else{
+          $(e).removeClass('border border-danger');
+          $(e).parent().find('span').remove();
+        }
+      })
+
+      if(submit){
+      $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url : "{% url 'register' %}",
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        data : {
+            'username' : $('.username').val(),
+            'email' : $('.email').val(),
+            'password' : $('.password').val(),
+            're_password' : $('.re_password').val()
+        },
+        cache: false,
+        timeout: 600000,
+        success: function (res) {
+            console.log(res)
+            if(res.status == true){
+            setTimeout(function(){
+                window.location.href = "{% url 'login' %}" 
+            },2000)
+            toastr["success"](res.message)
+            }else{
+            if (res.message){
+              toastr.error(res.message);
+            }else{
+              toastr.error('There was an error!');
+            }
+        }},
+    });
+
+
+    }
+    })
+})
+</script>
+{%endblock%}

@@ -1,0 +1,44 @@
+{% extends "base.html"%}
+
+{%block content%}
+<div class="container mt-5">
+    <div class="row mt-5">
+        <h4 class="mt-5">Add blogg</h4>
+        <div class="col-md-12 mt-5">
+        
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Title</label>
+                      <input type="text" class="form-control" name="title" >
+               
+                    </div>
+                    <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Description</label>
+                      <textarea class="form-control" rows="3"  name="desc"></textarea>
+
+                    </div>
+
+                    <!-- <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Date</label>
+                        <input type="datetime-local" class="form-control" name="date" >
+                 
+                      </div> -->
+                 
+
+                      <div class="mb-3">
+                        <label for="exampleInput" class="form-label">Image</label>
+                        <input type="file" class="form-control" name="img" >
+                        
+                 
+                      </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}
