@@ -12,6 +12,8 @@ import json
 from django.http import JsonResponse
 from time import sleep
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
+import stripe
 
 import random
 from datetime import datetime  
@@ -116,6 +118,7 @@ class Logout(View):
 
 
 #for adding posts
+@login_required(login_url='login')
 def addpost(request):
    
     if request.method=='POST':
@@ -155,6 +158,7 @@ def updatepost(request,id):
      
         try:
             P = Post.objects.get(id = id)
+           
             P.title = request.POST.get('title')
             P.desc = request.POST.get('desc')
 
@@ -164,8 +168,9 @@ def updatepost(request,id):
            
             P.save()
             print("sssssssssssss")
-            # return HttpResponseRedirect(reverse("base"))
-            return HttpResponseRedirect(reverse('viewpost', kwargs={'id':id}))
+            messages.success(request, 'Updated!')
+            # return HttpResponseRedirect(reverse('viewpost', kwargs={'id':id}))
+            return HttpResponseRedirect(reverse('base'))
         
         except Exception as e:
             print(e)
@@ -176,7 +181,11 @@ def updatepost(request,id):
 
     else:
         p = Post.objects.get(id = id)
-
+        print(  p.author.id ,'author--------')
+        print(request.user.id ,'useridd--------')
+        if p.author.id != request.user.id:
+            messages.error(request, 'Errors')
+            return HttpResponseRedirect(reverse('base'))
         return render(request,"updatepost.html",locals())
 
 
@@ -189,3 +198,31 @@ def deletepost(request,id):
     d.delete()
     
     return HttpResponseRedirect(reverse('base'))
+
+def stripe(request):
+    
+
+    if request.method=="POST":
+        print(request.POST)
+        price_id = request.POST.get('price_id')
+
+        stripe.api_key = "sk_test_51IutOESIibBGQfNw9Kh8WrqFVo4JfQsNcuThkgeVNjer8AOxtQorMLICj36KOMVQ6l78052I3TG9oIbATRAaQELH00zYrLUTQc"
+
+        session = stripe.checkout.Session.create(
+            success_url='http://127.0.0.1:8000/success/?session_id={CHECKOUT_SESSION_ID}&pid='+price_id,
+            cancel_url='http://127.0.0.1:8000/cancel',
+            payment_method_types=['card'],
+            mode='subscription',
+            line_items=[{
+                'price': price_id,
+                # For metered billing, do not pass quantity
+                'quantity': 1
+            }],
+        )
+
+        return redirect(session.url, code=303)
+
+    return render(request,'stripe.html')
+
+
+       

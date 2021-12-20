@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link type="text/css" href={% static "css/style.css" %} rel="stylesheet">
 
 
 </head>
@@ -21,13 +22,14 @@
 .rounded {
     border-radius: 1.25rem!important;
 }
+.container-fluid{background-color: #9A616D;}
 
 
 
 </style>
 <body>
- 
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-2 bg-dark">
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
           <a class="navbar-brand" href="#">Blog</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +44,10 @@
               <li class="nav-item p-2">
                 <a class="nav-link text-light  h4" aria-current="page" href="#">About</a>
               </li>
+              <li class="nav-item p-2">
+                <a class="nav-link text-light  h4" href="{% url 'allpost'  %}">View all post</a>
+           
+              </li>
            
             </ul>
       
@@ -55,6 +61,7 @@
                     <a class="nav-link text-light  h4" href="{% url 'addpost'  %}">Add Post</a>
                
                   </li>
+               
                   {%else%}   
                 <li class="nav-item p-2">
                     <a class="nav-link text-light  h4" href="{% url 'login'  %}">Login</a>
@@ -69,10 +76,22 @@
         </div>
       </nav>
 
+     
+      {% if messages %}
+      <ul class="messages mt-6">
+          {% for message in messages %}
+          <h4 {% if message.tags == 'error' %} class="alert alert-danger" {% else %} class="alert alert-{{ message.tags }}" {% endif %} style="margin-top: 120px !important;">
+            
+              {{ message }}
+          </h4>
+          {% endfor %}
+      </ul>
+      {% endif %}
 
-
+      
     {% block content%} 
     
     {% endblock %}
+  </div>
 </body>
 </html>

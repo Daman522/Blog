@@ -22,8 +22,12 @@
                   </ul>
                 <div class="card-body">
                   <p class="card-text">"{{i.desc}}"</p>
+
+                  {% if request.user == i.author %}
                   <a href="{% url 'updatepost' i.id  %}" class="btn btn-primary">Edit</a>
                   <a href="{% url 'deletepost' i.id  %}" class="btn btn-danger">Delete</a>
+                  {%endif%}
+                  <a href="{% url 'viewpost' i.id  %}" class="btn btn-success">View</a>
                 </div>
               </div>
               {% endfor %}
