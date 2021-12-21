@@ -9,7 +9,8 @@ from myapp.views import *
 
 
 urlpatterns = [
-    path('', base, name='base'),
+    path('', home, name='home'),
+     path('/base', base, name='base'),
     path('/login', Login.as_view(), name='login'),
     path('/register', Register.as_view(), name='register'),
     path('/logout', Logout.as_view(), name='logout'),
@@ -19,5 +20,7 @@ urlpatterns = [
     path('/updatepost/<int:id>', updatepost, name='updatepost'),
     path('/deletepost/<int:id>', deletepost, name="deletepost"),
     path('/stripe', stripe, name="stripe"),
+    path('/design', design, name="design"),
+    # path('/home', home, name="home"),
 
 ]

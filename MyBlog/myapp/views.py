@@ -24,8 +24,14 @@ from datetime import datetime
 def base(request):
     return render(request,'base.html')
 
+def design(request):
+    return render(request,'design.html')
 
 
+def home(request):
+    p=Post.objects.all()
+    print(p)
+    return render(request,'home.html',locals())
 
 
 class Login(View):

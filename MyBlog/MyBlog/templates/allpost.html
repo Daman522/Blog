@@ -1,8 +1,8 @@
-{% extends "base.html"%}
+{% extends "header.html"%}
 
 {%block content%}
 
-<div class="container mt-5">
+<!-- <div class="container mt-5 background-color1">
     <div class="row  mt-5">
     </div>
     <div class="row  mt-5">
@@ -33,6 +33,45 @@
               {% endfor %}
         </div>
     </div>
-</div>
+</div> -->
 
+
+
+<section class=""  style="background-color: #919090;">
+  <div class="container">
+    <div class="row ">
+      <div class="col-md-12 text-center">
+       <hr> </hr>
+      </div>
+    </div>
+    {% for i in p%}
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h1 class="text-dark fw-bold ">{{i.title}}</h1>
+          <h3 class="text-dark my-1 mt-3">{{i.desc}}</h3>
+          <h6 class="text-dark my-1 mt-3">{{i.author}}</h6>
+          <h6 class="text-dark my-1 mt-3">{{i.date_posted}}</h6>
+          <a href="{% url 'viewpost' i.id  %}" class="btn btn-success mt-3">Read More....</a>
+          {% if request.user == i.author %}
+          <a href="{% url 'updatepost' i.id  %}" class="btn btn-primary">Edit</a>
+          <a href="{% url 'deletepost' i.id  %}" class="btn btn-danger">Delete</a>
+          {%endif%}
+        </div>
+        <div class="col-md-6">
+          <a href="{% url 'viewpost' i.id  %}"> 
+          <img src="{{i.image.url}}" class="text-center img-fluid img-thumbnail  rounded" alt="..." style="height: 310px">
+        </a>
+        </div>
+      </div>
+      {% endfor %}
+       
+     
+  
+    
+    
+  
+    </div>
+  
+  </div>
+  </section>
 {%endblock%}
